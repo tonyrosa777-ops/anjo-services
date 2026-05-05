@@ -75,6 +75,7 @@ export default function AboutTeaser() {
                 alt="Tony Squillini, owner of Anjo Services"
                 fill
                 sizes="(min-width: 1024px) 35vw, 90vw"
+                priority
                 style={{ objectFit: "cover" }}
               />
             </div>
