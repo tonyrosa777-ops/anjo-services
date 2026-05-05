@@ -35,12 +35,86 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
+import { FAQPageSchema, BreadcrumbSchema } from "@/components/seo";
+import type { FaqSchemaItem } from "@/components/seo";
 
 export const metadata: Metadata = {
-  title: "What does it actually cost? Real prices on real Anjo projects.",
+  title:
+    "Real Project Costs in Methuen MA + North Shore | Anjo Services",
   description:
-    "Real prices on real Methuen, Andover, and Haverhill projects. Kitchen $25K to $65K. Bath $10K to $35K. Deck $5K to $25K. Coffered ceiling $2.5K to $7.5K. We publish ranges other contractors hide.",
+    "Real prices on real Methuen, Andover, and Haverhill projects. Kitchen $25K to $65K. Bath $10K to $35K. Deck $5K to $25K. Coffered ceiling $2.5K to $7.5K typical.",
+  alternates: { canonical: "/services/cost" },
+  openGraph: {
+    type: "website",
+    url: "https://anjoservices.com/services/cost",
+    siteName: "Anjo Services, LLC",
+    locale: "en_US",
+    title:
+      "Real Project Costs in Methuen MA + North Shore | Anjo Services",
+    description:
+      "Real prices on real projects. Kitchen, bath, deck, finish carpentry. Ranges other contractors hide.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Real Project Costs in Methuen MA + North Shore | Anjo Services",
+    description:
+      "Kitchen $25K-$65K. Bath $10K-$35K. Coffered ceiling $2.5K-$7.5K. Real prices, real projects.",
+  },
 };
+
+/**
+ * AEO question-format gaps — sourced verbatim from market-intelligence.md §6
+ * "AEO content gaps — 10 question-format opportunities". These are the
+ * questions Google AI Overviews surface in the contractor / remodeling
+ * category that no local competitor answers well; matching FAQPage schema
+ * on the cost-transparency page directly feeds AI Overview citations.
+ *
+ * Answers reuse cost data already published on this page (table rows, FAQ
+ * accordion content, Anjo's transparency pillars).
+ */
+const aeoFaqs: FaqSchemaItem[] = [
+  {
+    q: "How much does a kitchen remodel really cost in Methuen MA in 2025?",
+    a: "Kitchen remodels in Methuen, MA typically run $25,000 to $65,000 in 2025. Most of our Methuen, Andover, and Haverhill kitchens land between $35,000 and $45,000. Final cost depends on cabinet line, counter material, layout changes, and what we find behind the walls. We send a written quote with line items within 24 hours of the on-site walkthrough.",
+  },
+  {
+    q: "What is the difference between a $30K and a $60K kitchen remodel?",
+    a: "A $30K kitchen typically keeps the existing layout, swaps cabinets and counters, refreshes lighting and paint, and reuses appliances. A $60K kitchen usually relocates plumbing or walls, upgrades to custom or semi-custom cabinets, adds an island, includes new appliances, and uses higher-grade counter material like quartz or natural stone.",
+  },
+  {
+    q: "How do I find a contractor who actually shows up?",
+    a: "Three signals to check before you hire: did they answer your first call or text within 24 hours, do they publish their license numbers, and can they show you finished projects with prices attached. If any one is missing, keep looking. Anjo Services meets all three on this site, in writing, with photos.",
+  },
+  {
+    q: "What questions should I ask before hiring a general contractor in Massachusetts?",
+    a: "Ask for the MA HIC and CSL numbers and look them up on Mass.gov before signing anything. Ask for proof of general liability and workers comp insurance. Ask for three recent project addresses you can drive past. Ask for a written quote with line items, a written contract that complies with M.G.L. c. 142A, and a clear payment schedule that does not front-load deposits.",
+  },
+  {
+    q: "How long does a typical bathroom remodel take in MA?",
+    a: "A standard hall bathroom remodel takes 9 to 14 working days from demo to final caulk. A full primary suite with tile shower, double vanity, and lighting changes runs 12 to 18 working days. We give you a calendar with start date, milestones, and final-walkthrough day in writing before we swing the first hammer.",
+  },
+  {
+    q: "Do I need a permit to install a coffered ceiling or accent wall in Massachusetts?",
+    a: "Most coffered ceilings and accent walls do NOT require a permit in Massachusetts because they are decorative finish carpentry, not structural. If the work involves moving electrical, recessed lighting, or load-bearing changes, then yes a permit is needed. We confirm on the walkthrough so there are no surprises.",
+  },
+  {
+    q: "What is the cheapest way to update a 1980s kitchen without gutting it?",
+    a: "Refresh-tier kitchens in MA typically run $20,000 to $30,000 for cabinet swap, new counters, sink, faucet, lighting, and paint, while keeping the existing layout, floor, and appliances. The kitchen feels brand new without moving plumbing or walls. Most of these jobs finish in 2 to 3 weeks.",
+  },
+  {
+    q: "How do I verify my contractor is licensed in Massachusetts?",
+    a: "Use the Mass.gov Home Improvement Contractor (HIC) search and the Massachusetts Construction Supervisor License (CSL) search. Both are free public databases. Cross-check the license number, business name, and any active complaints. Anjo Services prints HIC and CSL numbers on every contract and quote.",
+  },
+  {
+    q: "What should be in a home improvement contract in MA?",
+    a: "Massachusetts General Laws Chapter 142A require: full names and addresses of homeowner and contractor, MA HIC registration number, total contract price, payment schedule that does not exceed one-third upfront, start and substantial-completion dates, scope of work in detail, permit responsibility, dispute-resolution language, and the homeowner's three-day right of cancellation. Every Anjo contract complies.",
+  },
+  {
+    q: "Can a handyman legally do electrical or plumbing work in Massachusetts and New Hampshire?",
+    a: "A handyman can swap a faucet, replace a switch plate, or hang a light fixture on existing wiring. New circuits, panel work, and water-line changes require a licensed electrician or plumber by law in both states. Anjo handles small fixture swaps in-house and brings in trusted licensed pros for permit-required work, billed at cost plus our coordination time.",
+  },
+];
 
 type CostRow = {
   emoji: string;
@@ -120,6 +194,14 @@ const costRows: CostRow[] = [
 export default function ServicesCostPage() {
   return (
     <>
+      <FAQPageSchema items={aeoFaqs} />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: "Real Project Costs", url: "/services/cost" },
+        ]}
+      />
       {/* ─── 1. Page Header ────────────────────────────────────────────── */}
       <section
         className="relative w-full overflow-hidden"

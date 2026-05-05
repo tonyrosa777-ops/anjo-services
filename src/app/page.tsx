@@ -50,6 +50,7 @@
  *   rotate motion vocabulary (mesh drift / aurora sweep / grain shimmer).
  */
 
+import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import PainPoints from "@/components/sections/PainPoints";
 import ServicesSection from "@/components/sections/ServicesSection";
@@ -60,10 +61,42 @@ import TestimonialsHomepage from "@/components/sections/TestimonialsHomepage";
 import QuizCTA from "@/components/sections/QuizCTA";
 import BlogPreview from "@/components/sections/BlogPreview";
 import BookingTeaser from "@/components/sections/BookingTeaser";
+import { GeneralContractorSchema } from "@/components/seo";
+
+export const metadata: Metadata = {
+  // Per layout.tsx the title template is "%s | Anjo Services, LLC". Setting
+  // `title.absolute` here so the homepage shows the full positioning line
+  // without doubling the brand name.
+  title: {
+    absolute:
+      "Anjo Services, LLC: General Contracting & Handyman | Methuen, MA",
+  },
+  description:
+    "Real prices. Real photos. Real Tony on the phone. Owner-led general contracting and handyman work across Methuen, Andover, Haverhill, and Salem NH since 2018.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "https://anjoservices.com/",
+    siteName: "Anjo Services, LLC",
+    locale: "en_US",
+    title:
+      "Anjo Services, LLC: General Contracting & Handyman | Methuen, MA",
+    description:
+      "Real prices. Real photos. Real Tony on the phone. Methuen, MA + North Shore + southern NH since 2018.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Anjo Services, LLC: General Contracting & Handyman | Methuen, MA",
+    description:
+      "Real prices. Real photos. Real Tony on the phone. Methuen, MA + North Shore + southern NH since 2018.",
+  },
+};
 
 export default function HomePage() {
   return (
     <>
+      <GeneralContractorSchema />
       {/* 1 — Hero (dark) */}
       <Hero />
       {/* 2 — Pain Points (light) */}

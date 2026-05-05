@@ -27,7 +27,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://anjoservices.com"),
   title: {
-    default: "Anjo Services, LLC — General Contracting & Handyman | Methuen, MA",
+    default: "Anjo Services, LLC: General Contracting & Handyman | Methuen, MA",
     template: "%s | Anjo Services, LLC",
   },
   description:

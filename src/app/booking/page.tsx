@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import BookingCalendar from "@/components/BookingCalendar";
 import { siteConfig } from "@/data/site";
+import { BreadcrumbSchema } from "@/components/seo";
 
 /**
  * /booking — full BookingCalendar page.
@@ -17,15 +18,36 @@ import { siteConfig } from "@/data/site";
  */
 
 export const metadata: Metadata = {
-  title: "Schedule a Walkthrough",
+  title: "Schedule a Walkthrough with Tony",
   description:
-    "Book a 30 minute on-site walkthrough with Tony. Real prices, written quote in 24 hours. Methuen, Andover, Haverhill, Salem NH and the whole North Shore corridor.",
+    "Book a 30-minute on-site walkthrough. Written quote within 24 hours. Methuen, Andover, Haverhill, North Andover, Lawrence MA and Salem, Derry, Windham, Londonderry NH.",
   alternates: { canonical: "/booking" },
+  openGraph: {
+    type: "website",
+    url: "https://anjoservices.com/booking",
+    siteName: "Anjo Services, LLC",
+    locale: "en_US",
+    title: "Schedule a Walkthrough with Tony | Anjo Services",
+    description:
+      "Pick a 30-minute on-site walkthrough. Written quote within 24 hours. No high-pressure pitch.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Schedule a Walkthrough with Tony | Anjo Services",
+    description:
+      "30-minute on-site walkthrough, written quote in 24 hours. No high-pressure pitch.",
+  },
 };
 
 export default function BookingPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Schedule a Walkthrough", url: "/booking" },
+        ]}
+      />
       {/* ── Page header (dark, ambient breathing-orb) ── */}
       <section
         className="relative overflow-hidden"

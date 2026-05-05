@@ -3,12 +3,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
 import { CountUp, FadeUp, SlideIn } from "@/components/animations";
+import { BreadcrumbSchema } from "@/components/seo";
 
 export const metadata: Metadata = {
   title: "Meet Tony Squillini, Owner of Anjo Services",
   description:
     "Owner-led general contracting in Methuen, MA since 2018. Tony Squillini answers his own phone, runs his own jobs, and writes every quote himself. North Shore MA + southern NH.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    type: "profile",
+    url: "https://anjoservices.com/about",
+    siteName: "Anjo Services, LLC",
+    locale: "en_US",
+    title: "Meet Tony Squillini, Owner of Anjo Services",
+    description:
+      "Owner-led contracting in Methuen, MA since 2018. Same phone, same hands, same standards on every job.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meet Tony Squillini, Owner of Anjo Services",
+    description:
+      "Owner-led contracting in Methuen, MA since 2018. Same phone, same hands, same standards on every job.",
+  },
 };
 
 /**
@@ -33,6 +49,12 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "About Tony", url: "/about" },
+        ]}
+      />
       {/* ─── Page Header (interior page — Page Header Standard) ────────── */}
       <section
         className="relative overflow-hidden pt-32 pb-20"

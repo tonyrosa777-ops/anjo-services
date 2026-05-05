@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteConfig, serviceAreas } from "@/data/site";
 import { serviceAreaDescriptions } from "@/data/serviceAreaDescriptions";
+import { BreadcrumbSchema } from "@/components/seo";
 import CityPageClient from "./CityPageClient";
 
 /**
@@ -14,6 +15,10 @@ import CityPageClient from "./CityPageClient";
  *   - find area by slug
  *   - notFound() on miss
  *   - render <CityPageClient area={...} description={...} />
+ *
+ * Schema emitted: BreadcrumbSchema only. City pages surface multiple services
+ * (no single Service entity is the page subject) so per agent file Step 2,
+ * Service schema lives on /services/[slug] pages instead.
  */
 
 type Params = Promise<{ city: string }>;
@@ -30,11 +35,28 @@ export async function generateMetadata({
   const { city } = await params;
   const area = serviceAreas.find((a) => a.slug === city);
   if (!area) return {};
-  const stateName = area.state === "MA" ? "MA" : "NH";
+  const stateName = area.state;
+  const title = `Home Improvement Contractor in ${area.city}, ${stateName} | Anjo Services`;
+  const description = `Licensed contractor in ${area.city}, ${stateName}. Kitchen remodels, bath remodels, finish carpentry, decks, painting, handyman. Free written quote within 24 hours. Call ${siteConfig.phone}.`;
+  const url = `https://anjoservices.com/service-areas/${area.slug}`;
+
   return {
-    title: `Home Improvement Contractor in ${area.city}, ${stateName} | Anjo Services, LLC`,
-    description: `Licensed contractor serving ${area.city}, ${stateName}. Kitchen remodels, bath remodels, finish carpentry, decks, painting, handyman. Free quote in 24 hours. Call ${siteConfig.phone}.`,
+    title,
+    description,
     alternates: { canonical: `/service-areas/${area.slug}` },
+    openGraph: {
+      type: "website",
+      url,
+      siteName: "Anjo Services, LLC",
+      locale: "en_US",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
@@ -45,5 +67,19 @@ export default async function CityPage({ params }: { params: Params }) {
 
   const description = serviceAreaDescriptions[area.slug];
 
-  return <CityPageClient area={area} description={description} />;
+  return (
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Service Areas", url: "/service-areas" },
+          {
+            name: `${area.city}, ${area.state}`,
+            url: `/service-areas/${area.slug}`,
+          },
+        ]}
+      />
+      <CityPageClient area={area} description={description} />
+    </>
+  );
 }

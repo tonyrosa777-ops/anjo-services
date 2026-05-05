@@ -20,16 +20,39 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { services, siteConfig } from "@/data/site";
 import { ScaleIn } from "@/components/animations";
+import { BreadcrumbSchema } from "@/components/seo";
 
 export const metadata: Metadata = {
-  title: "Services — Six Services. One Contractor.",
+  title: "Services: Six Services, One Contractor | Anjo Services",
   description:
     "Finish carpentry, kitchen remodels, bathroom remodels, decks, painting, handyman. Real prices on every page. Methuen MA + North Shore MA + southern NH since 2018.",
+  alternates: { canonical: "/services" },
+  openGraph: {
+    type: "website",
+    url: "https://anjoservices.com/services",
+    siteName: "Anjo Services, LLC",
+    locale: "en_US",
+    title: "Services: Six Services, One Contractor | Anjo Services",
+    description:
+      "Finish carpentry, kitchen remodels, bath remodels, decks, painting, handyman. Real prices, real photos, real Tony.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Services: Six Services, One Contractor | Anjo Services",
+    description:
+      "Finish carpentry, kitchens, baths, decks, painting, handyman. Real prices on every page.",
+  },
 };
 
 export default function ServicesIndexPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+        ]}
+      />
       {/* ─── Page Header (ambient orbs, NOT full hero canvas) ──────────── */}
       <section
         className="relative w-full overflow-hidden"

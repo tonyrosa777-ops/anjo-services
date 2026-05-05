@@ -30,11 +30,28 @@ import BeforeAfterSlider, {
   type BeforeAfterPair,
 } from "@/components/BeforeAfterSlider";
 import TextTonyCTA from "@/components/TextTonyCTA";
+import { BreadcrumbSchema } from "@/components/seo";
 
 export const metadata: Metadata = {
-  title: "Gallery — Coffered Ceilings, Kitchens, Baths, Decks",
+  title: "Project Gallery: Coffered Ceilings, Kitchens, Baths, Decks",
   description:
-    "Real Anjo Services projects across Methuen, Andover, Haverhill, North Andover, Lawrence, Salem NH, Derry, and Windham. Town, scope, price, and year on every photo.",
+    "Real Anjo project photos across Methuen, Andover, Haverhill, North Andover, Lawrence, Salem NH, Derry, and Windham. Town, scope, price, and year on every photo.",
+  alternates: { canonical: "/gallery" },
+  openGraph: {
+    type: "website",
+    url: "https://anjoservices.com/gallery",
+    siteName: "Anjo Services, LLC",
+    locale: "en_US",
+    title: "Project Gallery: Coffered Ceilings, Kitchens, Baths, Decks",
+    description:
+      "Real Anjo project photos. Town, scope, price, year on every image. Methuen, Andover, Haverhill, Salem NH and beyond.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Project Gallery: Coffered Ceilings, Kitchens, Baths, Decks",
+    description:
+      "Real Anjo project photos. Town, scope, price, year on every image.",
+  },
 };
 
 interface GalleryItem {
@@ -218,6 +235,12 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
 export default function GalleryPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Gallery", url: "/gallery" },
+        ]}
+      />
       {/* Page header — light tone, ambient breathing orb */}
       <section
         className="relative w-full"
