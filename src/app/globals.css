@@ -14,6 +14,7 @@
 :root {
   /* ----- Brand colors ----- */
   --primary: #c8202c;            /* Anjo brand red — locked from 4 candidates */
+  --primary-soft: rgba(200, 32, 44, 0.10); /* low-alpha primary — secondary CTA hover, dropdown hover bg */
   --primary-muted: #9a1922;      /* hover state for primary buttons (~12% darker) */
   --accent: #e8b04c;             /* warm amber — sparingly, hero-shimmer + 1px detail accents only. NEVER on CTAs. */
   --trust-signal: #9a9a9a;       /* license badges, BBB, Google review stars — NEVER gold */

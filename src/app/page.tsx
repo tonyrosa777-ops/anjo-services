@@ -1,27 +1,62 @@
-import { siteConfig, hero } from "@/data/site";
+/**
+ * Homepage — Anjo Services, LLC.
+ *
+ * ─── Section rhythm map (locked per design-system.md §11 + CLAUDE.md
+ *     Homepage Section Architecture Rule). Three columns: section / tone /
+ *     purpose. Wave 2 agents add sections 2–10. Section 1 (Hero) and 11
+ *     (Footer, rendered via app/layout.tsx) are owned by Wave 1.
+ *
+ *  #  | Section                                | Tone  | Purpose
+ *  ── | ────────────────────────────────────── | ───── | ──────────────────────────
+ *   1 | Hero (3-layer canvas + stagger text +  | dark  | conversion (primary CTAs)
+ *     | Schedule Walkthrough / Find My Project |       |
+ *     | CTAs)                                   |       |
+ *   2 | Pain Points (4-pain grid)              | light | empathy
+ *   3 | Services (3-col grid, finish carpentry | dark  | education
+ *     | leads)                                  |       |
+ *   4 | Featured Project Gallery (before/after | light | social proof (visual)
+ *     | slider, coffered ceiling lead)         |       |
+ *   5 | About Tony (photo + tenure + license   | dark  | trust + founder
+ *     | numbers)                                |       |
+ *   6 | Cost Transparency Teaser (3-card cost  | light | education + commerce
+ *     | preview → /services/cost)              |       |
+ *   7 | Testimonials (3–4 featured + See All   | dark  | social proof (verbal)
+ *     | CTA)                                    |       |
+ *   8 | Quiz CTA (8 quick questions → /quiz)   | light | conversion (mid-page nudge)
+ *   9 | Blog Preview (3 featured articles)     | dark  | content preview
+ *  10 | Booking Calendar Teaser (inline custom | light | conversion (final, single
+ *     | BookingCalendar)                        |       | bottom-of-page CTA)
+ *  11 | Footer (logo + nav + license + Text    | dark  | nav
+ *     | Tony + social — rendered in layout.tsx) |       |
+ *
+ * Dark/light alternation verification:
+ *   dark → light → dark → light → dark → light → dark → light → dark → light → dark
+ *   Eleven sections, perfect alternation, ZERO adjacent same-tone.
+ *
+ * Purpose-level dedup verification:
+ *   Pain Points (empathy) → Services (education) → Gallery (visual proof) →
+ *   About (founder trust) → Cost (commerce) → Testimonials (verbal proof,
+ *   separated from Gallery by 2 sections) → Quiz (mid-page conversion,
+ *   journey format) → Blog (content) → Booking (final direct conversion).
+ *   Hero (conversion) and Booking (conversion) are bookends with 9 sections
+ *   between — not adjacent. Quiz CTA and Booking CTA both serve conversion
+ *   but use different formats (journey vs. direct calendar) and are
+ *   separated by Blog Preview. ZERO adjacent same-purpose.
+ *
+ * Motion budget verification (Performance budget — max 3 active motion
+ * layers visible in any viewport simultaneously):
+ *   Above the fold = Hero (1) + Pain Points breathing orb (2) — within budget.
+ *   Mid-page scroll never exceeds 2 motion layers because adjacent sections
+ *   rotate motion vocabulary (mesh drift / aurora sweep / grain shimmer).
+ */
+
+import { Hero } from "@/components/hero";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen flex items-center justify-center px-6 py-24">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "var(--bg-dark-overlay-radial)" }}
-        aria-hidden
-      />
-      <div className="relative z-10 max-w-2xl text-center">
-        <p className="text-eyebrow text-[var(--accent)] font-display">
-          Phase 1 scaffold complete · Stage 1E builds homepage sections
-        </p>
-        <h1 className="hero-shimmer font-display text-display font-black mt-4">
-          {siteConfig.tagline}
-        </h1>
-        <p className="text-body-lg text-[var(--text-secondary)] mt-6">
-          {hero.subheadline}
-        </p>
-        <p className="text-meta font-mono text-[var(--text-muted)] mt-10">
-          {siteConfig.phone} · {siteConfig.baseCity}
-        </p>
-      </div>
-    </main>
+    <>
+      <Hero />
+      {/* Sections 2–10 are added by Wave 2 page-building agents. */}
+    </>
   );
 }

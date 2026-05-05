@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Saira_Condensed, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Navigation, Footer } from "@/components/layout";
 
 const sairaCondensed = Saira_Condensed({
   variable: "--font-saira-condensed",
@@ -48,7 +49,15 @@ export default function RootLayout({
       lang="en"
       className={`${sairaCondensed.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Navigation />
+        {/* pt-24 lg:pt-28 clears the fixed navbar (Error #40 — interior pages
+            previously hidden under the nav). Matches nav height: 6rem default,
+            5rem scrolled — using 6rem mobile / 7rem desktop padding gives a
+            comfortable buffer below the bottom border. */}
+        <main className="flex-1 pt-24 lg:pt-28">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

@@ -191,7 +191,7 @@ export default function Hero() {
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLAnchorElement).style.background =
-                    "rgba(200, 32, 44, 0.10)";
+                    "var(--primary-soft)";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLAnchorElement).style.background =
