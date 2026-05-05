@@ -51,12 +51,40 @@
  */
 
 import { Hero } from "@/components/hero";
+import PainPoints from "@/components/sections/PainPoints";
+import ServicesSection from "@/components/sections/ServicesSection";
+import FeaturedGallery from "@/components/sections/FeaturedGallery";
+import AboutTeaser from "@/components/sections/AboutTeaser";
+import CostTransparency from "@/components/sections/CostTransparency";
+import TestimonialsHomepage from "@/components/sections/TestimonialsHomepage";
+import QuizCTA from "@/components/sections/QuizCTA";
+import BlogPreview from "@/components/sections/BlogPreview";
+import BookingTeaser from "@/components/sections/BookingTeaser";
 
 export default function HomePage() {
   return (
     <>
+      {/* 1 — Hero (dark) */}
       <Hero />
-      {/* Sections 2–10 are added by Wave 2 page-building agents. */}
+      {/* 2 — Pain Points (light) */}
+      <PainPoints />
+      {/* 3 — Services (dark) */}
+      <ServicesSection />
+      {/* 4 — Featured Project Gallery before/after slider (light) */}
+      <FeaturedGallery />
+      {/* 5 — About Tony (dark) */}
+      <AboutTeaser />
+      {/* 6 — Cost Transparency teaser (light) */}
+      <CostTransparency />
+      {/* 7 — Testimonials (dark) */}
+      <TestimonialsHomepage />
+      {/* 8 — Quiz CTA (light) */}
+      <QuizCTA />
+      {/* 9 — Blog Preview (dark) */}
+      <BlogPreview />
+      {/* 10 — Booking Calendar Teaser (light) — single bottom-of-page conversion */}
+      <BookingTeaser />
+      {/* 11 — Footer (dark) is rendered globally in app/layout.tsx */}
     </>
   );
 }
