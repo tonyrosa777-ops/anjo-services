@@ -48,58 +48,51 @@ export default function BookingPage() {
           { name: "Schedule a Walkthrough", url: "/booking" },
         ]}
       />
-      {/* ── Page header (dark, ambient breathing-orb) ── */}
+      {/* ── Page header — sitewide dark+radial pattern (matches service-detail
+          page that the client locked as the reference aesthetic). NEVER a
+          saturated red full-width panel: feedback_dark-page-headers-not-red.md. */}
       <section
         className="relative overflow-hidden"
         style={{
-          background: "var(--primary)",
+          background: "var(--bg-dark-base)",
           color: "var(--text-primary)",
         }}
         aria-label="Schedule a walkthrough"
       >
-        {/* Ambient layer — CSS-only breathing orbs (12s cycle), no JS. */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
-          style={{ overflow: "hidden" }}
-        >
-          <div
-            className="orb absolute"
-            style={{
-              top: "-20%",
-              right: "-15%",
-              width: "55%",
-              height: "75%",
-              background:
-                "radial-gradient(ellipse at center, rgba(255, 255, 255, 0.18) 0%, transparent 65%)",
-              filter: "blur(40px)",
-            }}
-          />
-          <div
-            className="orb-2 absolute"
-            style={{
-              bottom: "-25%",
-              left: "-10%",
-              width: "60%",
-              height: "70%",
-              background:
-                "radial-gradient(ellipse at center, rgba(232, 176, 76, 0.18) 0%, transparent 65%)",
-              filter: "blur(50px)",
-            }}
-          />
-          <div
-            className="orb-3 absolute"
-            style={{
-              top: "20%",
-              left: "30%",
-              width: "40%",
-              height: "50%",
-              background:
-                "radial-gradient(ellipse at center, rgba(10, 10, 10, 0.22) 0%, transparent 65%)",
-              filter: "blur(60px)",
-            }}
-          />
-        </div>
+          style={{ background: "var(--bg-dark-overlay-radial)" }}
+        />
+        {/* Ambient breathing orbs — same alpha as service-detail header */}
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none orb"
+          style={{
+            top: "10%",
+            right: "8%",
+            width: "320px",
+            height: "320px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(200,32,44,0.18) 0%, transparent 70%)",
+            filter: "blur(2px)",
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none orb-2"
+          style={{
+            bottom: "10%",
+            left: "8%",
+            width: "260px",
+            height: "260px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(232,176,76,0.15) 0%, transparent 70%)",
+            filter: "blur(2px)",
+          }}
+        />
 
         <div
           className="relative mx-auto px-6 lg:px-8 py-16 md:py-24 text-center"

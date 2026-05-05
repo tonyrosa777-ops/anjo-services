@@ -4,9 +4,9 @@
  * /contact — get in touch with Tony.
  *
  * Architecture:
- *   - Page Header Standard (Fragment root, bg-[var(--primary)] pt-32 pb-20,
- *     ambient orbs inside header, content z-10, h1 = .hero-shimmer
- *     font-display text-h1 font-bold).
+ *   - Page Header Standard (Fragment root, dark bg + radial overlay + 2
+ *     ambient orbs, content z-10, h1 = .hero-shimmer font-display text-h1
+ *     font-bold). Sitewide aesthetic per feedback_dark-page-headers-not-red.md.
  *   - Two columns: left = React Hook Form + Zod-validated form posting to
  *     /api/contact, right = contact info card + Methuen Google Maps embed
  *     (Pattern #11 — free embed, no API key required).
@@ -103,52 +103,48 @@ export default function ContactClient() {
 
   return (
     <>
-      {/* ─── Page Header ───────────────────────────────────────────────── */}
+      {/* ─── Page Header — sitewide dark+radial pattern. NEVER a saturated
+          red full-width panel (feedback_dark-page-headers-not-red.md). ── */}
       <section
         className="relative overflow-hidden pt-32 pb-20"
-        style={{ background: "var(--primary)" }}
+        style={{
+          background: "var(--bg-dark-base)",
+          color: "var(--text-primary)",
+        }}
       >
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
-        >
-          <div
-            className="orb absolute"
-            style={{
-              top: "10%",
-              left: "5%",
-              width: "26rem",
-              height: "26rem",
-              background:
-                "radial-gradient(circle, rgba(232,176,76,0.35) 0%, transparent 60%)",
-              filter: "blur(40px)",
-            }}
-          />
-          <div
-            className="orb-2 absolute"
-            style={{
-              bottom: "8%",
-              right: "6%",
-              width: "30rem",
-              height: "30rem",
-              background:
-                "radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 60%)",
-              filter: "blur(50px)",
-            }}
-          />
-          <div
-            className="orb-3 absolute"
-            style={{
-              top: "30%",
-              left: "55%",
-              width: "20rem",
-              height: "20rem",
-              background:
-                "radial-gradient(circle, rgba(154,25,34,0.4) 0%, transparent 60%)",
-              filter: "blur(45px)",
-            }}
-          />
-        </div>
+          style={{ background: "var(--bg-dark-overlay-radial)" }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none orb"
+          style={{
+            top: "10%",
+            left: "5%",
+            width: "320px",
+            height: "320px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(200,32,44,0.18) 0%, transparent 70%)",
+            filter: "blur(2px)",
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none orb-2"
+          style={{
+            bottom: "8%",
+            right: "6%",
+            width: "260px",
+            height: "260px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(232,176,76,0.15) 0%, transparent 70%)",
+            filter: "blur(2px)",
+          }}
+        />
 
         <div
           className="relative z-10 mx-auto px-6 lg:px-8"

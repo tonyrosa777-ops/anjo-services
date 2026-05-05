@@ -55,53 +55,53 @@ export default function AboutPage() {
           { name: "About Tony", url: "/about" },
         ]}
       />
-      {/* ─── Page Header (interior page — Page Header Standard) ────────── */}
+      {/* ─── Page Header — sitewide dark+radial pattern (matches the
+          service-detail header that the client locked as the reference
+          aesthetic). NEVER a saturated red full-width panel: per
+          feedback_dark-page-headers-not-red.md, that reads as cheap
+          discount-sign and breaks site-wide uniformity. ─────────────── */}
       <section
         className="relative overflow-hidden pt-32 pb-20"
-        style={{ background: "var(--primary)" }}
+        style={{
+          background: "var(--bg-dark-base)",
+          color: "var(--text-primary)",
+        }}
       >
-        {/* Ambient breathing orbs (interior pages get ambient, never full hero canvas) */}
+        {/* Mandatory radial gradient overlay (feedback_dark-section-radial-gradients.md) */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
-        >
-          <div
-            className="orb absolute"
-            style={{
-              top: "10%",
-              left: "8%",
-              width: "26rem",
-              height: "26rem",
-              background:
-                "radial-gradient(circle, rgba(232,176,76,0.35) 0%, transparent 60%)",
-              filter: "blur(40px)",
-            }}
-          />
-          <div
-            className="orb-2 absolute"
-            style={{
-              bottom: "5%",
-              right: "10%",
-              width: "30rem",
-              height: "30rem",
-              background:
-                "radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 60%)",
-              filter: "blur(50px)",
-            }}
-          />
-          <div
-            className="orb-3 absolute"
-            style={{
-              top: "40%",
-              left: "55%",
-              width: "20rem",
-              height: "20rem",
-              background:
-                "radial-gradient(circle, rgba(154,25,34,0.4) 0%, transparent 60%)",
-              filter: "blur(45px)",
-            }}
-          />
-        </div>
+          style={{ background: "var(--bg-dark-overlay-radial)" }}
+        />
+        {/* Ambient breathing orbs — same alpha as service-detail header */}
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none orb"
+          style={{
+            top: "10%",
+            left: "8%",
+            width: "320px",
+            height: "320px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(200,32,44,0.18) 0%, transparent 70%)",
+            filter: "blur(2px)",
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none orb-2"
+          style={{
+            top: "30%",
+            right: "8%",
+            width: "260px",
+            height: "260px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(232,176,76,0.15) 0%, transparent 70%)",
+            filter: "blur(2px)",
+          }}
+        />
 
         <div
           className="relative z-10 mx-auto px-6 lg:px-8"
