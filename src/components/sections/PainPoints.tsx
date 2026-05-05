@@ -19,23 +19,14 @@ import { ScaleIn } from "@/components/animations";
 export default function PainPoints() {
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{
-        background: "var(--bg-base)",
-        color: "var(--text-primary-light)",
-      }}
+      className="surface-light w-full"
+      data-motion="mesh"
+      data-texture="paper"
       aria-label="Common contractor pain points we fix"
     >
-      {/* Static gradient overlay (light section) — no motion to keep budget */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-        style={{ background: "var(--bg-light-overlay-radial)" }}
-      />
-
-      <div
-        className="relative w-full mx-auto px-6 lg:px-8 py-16 md:py-24"
-        style={{ maxWidth: "var(--container-default)", zIndex: 1 }}
+        className="surface-content w-full mx-auto px-6 lg:px-8 py-16 md:py-24"
+        style={{ maxWidth: "var(--container-default)" }}
       >
         <div className="text-center" style={{ marginBottom: "var(--space-2xl)" }}>
           <p

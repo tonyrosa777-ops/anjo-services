@@ -45,22 +45,14 @@ const teaserBands = [
 export default function CostTransparency() {
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{
-        background: "var(--bg-base)",
-        color: "var(--text-primary-light)",
-      }}
+      className="surface-light w-full"
+      data-motion="aurora"
+      data-texture="paper"
       aria-label="Real prices on real projects"
     >
       <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-        style={{ background: "var(--bg-light-overlay-radial)" }}
-      />
-
-      <div
-        className="relative w-full mx-auto px-6 lg:px-8 py-16 md:py-24"
-        style={{ maxWidth: "var(--container-default)", zIndex: 1 }}
+        className="surface-content w-full mx-auto px-6 lg:px-8 py-16 md:py-24"
+        style={{ maxWidth: "var(--container-default)" }}
       >
         <div className="text-center" style={{ marginBottom: "var(--space-2xl)" }}>
           <p

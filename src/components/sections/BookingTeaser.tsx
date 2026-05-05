@@ -23,38 +23,18 @@ import BookingCalendar from "@/components/BookingCalendar";
 export default function BookingTeaser() {
   return (
     <section
-      className="relative overflow-hidden"
+      className="surface-light"
+      data-motion="breathe"
+      data-texture="paper"
       style={{
-        background: "var(--bg-base)",
-        color: "var(--text-primary-light)",
         paddingTop: "var(--space-3xl)",
         paddingBottom: "var(--space-3xl)",
       }}
       aria-label="Book a walkthrough"
     >
       <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "var(--bg-light-overlay-radial)" }}
-      />
-      {/* Single breathing orb — within motion budget */}
-      <div
-        aria-hidden="true"
-        className="orb absolute pointer-events-none"
-        style={{
-          bottom: "-15%",
-          left: "-10%",
-          width: "32rem",
-          height: "32rem",
-          background:
-            "radial-gradient(circle, rgba(200, 32, 44, 0.10) 0%, transparent 65%)",
-          filter: "blur(60px)",
-        }}
-      />
-
-      <div
-        className="relative mx-auto px-6 lg:px-8"
-        style={{ maxWidth: "var(--container-default)", zIndex: 10 }}
+        className="surface-content mx-auto px-6 lg:px-8"
+        style={{ maxWidth: "var(--container-default)" }}
       >
         <FadeUp>
           <div

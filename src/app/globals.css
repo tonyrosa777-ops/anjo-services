@@ -33,9 +33,37 @@
   --bg-elevated: #fafafa;
   --bg-card-light: #ffffff;
   --border-card-light: #e8e5df;
+  /* Chromatic wash — pumped 3x from the original 0.04/0.05 so the
+     gradient actually reads against #f8f7f4. Plus a third edge-vignette
+     stop that darkens corners ~6% — gives the section a "framed page"
+     dimension rather than infinite flat. */
   --bg-light-overlay-radial:
-    radial-gradient(ellipse at 25% 15%, rgba(200, 32, 44, 0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 85%, rgba(232, 176, 76, 0.05) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 60% at 22% 12%, rgba(200, 32, 44, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 82% 88%, rgba(232, 176, 76, 0.16) 0%, transparent 62%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, transparent 40%, rgba(40, 25, 15, 0.07) 100%);
+
+  /* Animated surface gradients — driven by [data-motion] on .surface-*.
+     Alphas pumped to match the new wash strength. */
+  --bg-light-mesh:
+    radial-gradient(at 22% 28%, rgba(200, 32, 44, 0.14) 0%, transparent 50%),
+    radial-gradient(at 78% 22%, rgba(232, 176, 76, 0.13) 0%, transparent 52%),
+    radial-gradient(at 60% 80%, rgba(200, 32, 44, 0.11) 0%, transparent 55%),
+    radial-gradient(at 18% 78%, rgba(232, 176, 76, 0.10) 0%, transparent 50%);
+  --bg-light-aurora:
+    conic-gradient(from 0deg at 50% 50%,
+      rgba(200, 32, 44, 0.13) 0deg,
+      transparent 90deg,
+      rgba(232, 176, 76, 0.12) 180deg,
+      transparent 270deg,
+      rgba(200, 32, 44, 0.13) 360deg);
+
+  /* Paper grain — fractalNoise SVG data URI, tiled at 220px.
+     Rect opacity 0.42 keeps the noise visible-but-subtle so
+     background-blend-mode: multiply produces architect-paper warmth,
+     not boulder-rock contrast. baseFrequency 0.65 + numOctaves 3 is
+     tuned for #f8f7f4. */
+  --surface-paper-grain:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.42'/></svg>");
 
   /* ----- Text scale ----- */
   --text-primary: #f5f5f2;       /* on dark bg — also used for hero H1 always */
@@ -189,6 +217,111 @@ body {
   100% { background-position:   0% 50%; }
 }
 
+/* Aurora sweep — slow conic rotation for dramatic data/CTA sections.
+   from/to (not 3-stop) so reduce-motion holds at end-state, which
+   on a radially-symmetric conic is visually identical to start-state. */
+@keyframes aurora-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   Section surface system — data-attribute driven layered backgrounds.
+   Plan: .claude/plans/luxury-light-section-surface-system.md.
+
+   Usage:
+     <section className="surface-light" data-motion="mesh" data-texture="paper">
+       <div className="surface-content">...</div>
+     </section>
+
+   Layer stack (z-index, bottom to top):
+     0  floor       — solid bg-base
+     1  ::before    — chromatic wash (+ paper grain when data-texture="paper")
+     2  ::after     — animated motion (breathe / mesh / aurora)
+     4  .surface-content — interactive children
+
+   isolation: isolate is mandatory: without it mix-blend-mode on the
+   paper-grain layer would leak across section boundaries (a dark hero
+   above would bleed into the light Pain Points section below).
+   Phase 1 ships .surface-light only; .surface-dark to follow.
+   ============================================================ */
+
+/* Layer 0 — solid floor + (optional) paper grain on the root box so
+   background-blend-mode multiplies the noise straight against the
+   bg-base color. Stacking paper into the ::before alongside the wash
+   was a footgun: --bg-light-overlay-radial is itself 2 layered radials,
+   so combining them produced 3 background layers vs 2 declared
+   blend-mode/repeat values, and CSS extension landed paper at
+   no-repeat/normal — only the top-left tile rendered. */
+.surface-light {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--bg-base);
+  color: var(--text-primary-light);
+}
+.surface-light[data-texture="paper"] {
+  background-image: var(--surface-paper-grain);
+  background-size: 220px 220px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+
+/* Layer 1 — chromatic wash on every .surface-light (with or without paper) */
+.surface-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--bg-light-overlay-radial);
+}
+
+/* Layer 2 — animated motion layer, ::after */
+.surface-light[data-motion]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* breathe — soft glowing orbs in opposite corners, 12s cycle */
+.surface-light[data-motion="breathe"]::after {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(200, 32, 44, 0.20) 0%, transparent 50%),
+    radial-gradient(circle at 88% 108%, rgba(232, 176, 76, 0.18) 0%, transparent 50%);
+  filter: blur(40px);
+  animation: breathe 12s ease-in-out infinite;
+}
+
+/* mesh — multi-stop radial mesh, slow 28s position drift */
+.surface-light[data-motion="mesh"]::after {
+  background: var(--bg-light-mesh);
+  background-size: 200% 200%;
+  animation: mesh-drift 28s ease-in-out infinite;
+}
+
+/* aurora — conic gradient slow 22s rotate. Layer is sized 200%+offset so
+   the visible viewport never sees the rotation seam at the gradient edge. */
+.surface-light[data-motion="aurora"]::after {
+  inset: auto;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: var(--bg-light-aurora);
+  transform-origin: center center;
+  animation: aurora-sweep 22s linear infinite;
+}
+
+/* Content wrapper — sits above all background layers. Apply to the
+   inner container that holds actual interactive content. */
+.surface-content {
+  position: relative;
+  z-index: 4;
+}
+
 /* ============================================================
    Accessibility — prefers-reduced-motion degrades to STATIC
    gradient (never flat) per CLAUDE.md Visual QA Rule
@@ -205,4 +338,9 @@ body {
   }
   /* Keep gradients visible — only motion stops */
   .orb, .orb-2, .orb-3 { opacity: 0.18; }
+
+  /* Surface system: motion stops, gradients persist. The global rule
+     above already kills animation on every ::after, but explicit-is-safer
+     for anyone reading globals.css and the section-architecture spec. */
+  .surface-light::after { animation: none; }
 }
