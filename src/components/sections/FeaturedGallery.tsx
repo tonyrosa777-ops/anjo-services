@@ -11,8 +11,8 @@
  * EXPLOIT #3: finish carpentry leads as the trojan-horse remodel funnel-top.
  *
  * Placeholder image src pattern:
- *   /gallery/placeholder-{slug}-before.jpg
- *   /gallery/placeholder-{slug}-after.jpg
+ *   /gallery/{slug}-before.jpg
+ *   /gallery/{slug}-after.jpg
  * Stage 1G fal.ai output is expected to land at these exact paths so this
  * file does not need to change when real images ship.
  *
@@ -33,11 +33,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "andover-coffered-ceiling",
     tabLabel: "Coffered Ceiling",
     before: {
-      src: "/gallery/placeholder-andover-coffered-ceiling-before.jpg",
+      src: "/gallery/andover-coffered-ceiling-before.jpg",
       alt: "Andover dining room before coffered ceiling install, plain flat painted ceiling.",
     },
     after: {
-      src: "/gallery/placeholder-andover-coffered-ceiling-after.jpg",
+      src: "/gallery/andover-coffered-ceiling-after.jpg",
       alt: "Andover dining room after coffered ceiling install, painted millwork grid.",
     },
     caption:
@@ -47,11 +47,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "methuen-kitchen-remodel",
     tabLabel: "Kitchen",
     before: {
-      src: "/gallery/placeholder-methuen-kitchen-remodel-before.jpg",
+      src: "/gallery/methuen-kitchen-remodel-before.jpg",
       alt: "Methuen kitchen before remodel, dated oak cabinets and worn laminate counters.",
     },
     after: {
-      src: "/gallery/placeholder-methuen-kitchen-remodel-after.jpg",
+      src: "/gallery/methuen-kitchen-remodel-after.jpg",
       alt: "Methuen kitchen after remodel, painted shaker cabinets and quartz counters.",
     },
     caption:
@@ -61,11 +61,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "salem-nh-bath",
     tabLabel: "Bath",
     before: {
-      src: "/gallery/placeholder-salem-nh-bath-before.jpg",
+      src: "/gallery/salem-nh-bath-before.jpg",
       alt: "Salem NH primary bath before remodel, builder-grade fiberglass tub and dated vanity.",
     },
     after: {
-      src: "/gallery/placeholder-salem-nh-bath-after.jpg",
+      src: "/gallery/salem-nh-bath-after.jpg",
       alt: "Salem NH primary bath after remodel, tiled walk-in shower and double vanity.",
     },
     caption:
@@ -75,11 +75,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "haverhill-deck",
     tabLabel: "Deck",
     before: {
-      src: "/gallery/placeholder-haverhill-deck-before.jpg",
+      src: "/gallery/haverhill-deck-before.jpg",
       alt: "Haverhill backyard before deck build, bare lawn with old patio slab.",
     },
     after: {
-      src: "/gallery/placeholder-haverhill-deck-after.jpg",
+      src: "/gallery/haverhill-deck-after.jpg",
       alt: "Haverhill backyard after deck build, composite deck with railings and stairs.",
     },
     caption:

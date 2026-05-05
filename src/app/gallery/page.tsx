@@ -16,9 +16,9 @@
  *
  * Placeholder image src pattern (Stage 1G fal.ai output replaces these
  * exact paths in place):
- *   /gallery/placeholder-{slug}-before.jpg
- *   /gallery/placeholder-{slug}-after.jpg     (for slider pairs)
- *   /gallery/placeholder-{slug}.jpg           (for single-image grid cards)
+ *   /gallery/{slug}-before.jpg
+ *   /gallery/{slug}-after.jpg     (for slider pairs)
+ *   /gallery/{slug}.jpg           (for single-image grid cards)
  *
  * No 'use client' here — page is server-rendered. The interactive slider is
  * its own client component imported below.
@@ -192,11 +192,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "andover-coffered-ceiling",
     tabLabel: "Coffered Ceiling",
     before: {
-      src: "/gallery/placeholder-andover-coffered-ceiling-before.jpg",
+      src: "/gallery/andover-coffered-ceiling-before.jpg",
       alt: "Andover dining room before coffered ceiling install.",
     },
     after: {
-      src: "/gallery/placeholder-andover-coffered-ceiling-after.jpg",
+      src: "/gallery/andover-coffered-ceiling-after.jpg",
       alt: "Andover dining room after coffered ceiling install.",
     },
     caption:
@@ -206,11 +206,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "methuen-kitchen-remodel",
     tabLabel: "Kitchen",
     before: {
-      src: "/gallery/placeholder-methuen-kitchen-remodel-before.jpg",
+      src: "/gallery/methuen-kitchen-remodel-before.jpg",
       alt: "Methuen kitchen before remodel.",
     },
     after: {
-      src: "/gallery/placeholder-methuen-kitchen-remodel-after.jpg",
+      src: "/gallery/methuen-kitchen-remodel-after.jpg",
       alt: "Methuen kitchen after remodel.",
     },
     caption:
@@ -220,11 +220,11 @@ const FEATURED_PAIRS: BeforeAfterPair[] = [
     id: "salem-nh-bath",
     tabLabel: "Primary Bath",
     before: {
-      src: "/gallery/placeholder-salem-nh-bath-before.jpg",
+      src: "/gallery/salem-nh-bath-before.jpg",
       alt: "Salem NH primary bath before remodel.",
     },
     after: {
-      src: "/gallery/placeholder-salem-nh-bath-after.jpg",
+      src: "/gallery/salem-nh-bath-after.jpg",
       alt: "Salem NH primary bath after remodel.",
     },
     caption:
@@ -413,7 +413,7 @@ export default function GalleryPage() {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`/gallery/placeholder-${item.slug}.jpg`}
+                      src={`/gallery/${item.slug}.jpg`}
                       alt={item.alt}
                       className="absolute inset-0 w-full h-full object-cover"
                       loading="lazy"
