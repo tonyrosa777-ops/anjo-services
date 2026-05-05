@@ -415,7 +415,7 @@ export default function ContactClient() {
                 }}
               >
                 <iframe
-                  title="Service area map — Methuen, MA"
+                  title="Service area map: Methuen, MA"
                   src="https://maps.google.com/maps?q=Methuen,+MA&output=embed&hl=en"
                   width="100%"
                   height="320"

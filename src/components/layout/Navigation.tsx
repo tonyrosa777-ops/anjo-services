@@ -15,7 +15,7 @@
  * Service-Areas dropdown lists all `serviceAreas[]` from /data/site.ts as
  * `/service-areas/[slug]` links + a "View All Service Areas →" footer.
  *
- * "More" overflow (≡ ∨) holds: FAQ · Testimonials · Shop · Contact · ⬥ Pricing.
+ * "More" overflow (≡ ∨) holds: FAQ · Testimonials · Contact · ⬥ Pricing.
  * Pricing renders amber `var(--accent)` per Always-Built Features Rule —
  * signals to demo viewers it is an Optimus internal sales tool.
  *
@@ -24,7 +24,7 @@
  *   - All primary links
  *   - Every service from services[]
  *   - Every service-area city from serviceAreas[]
- *   - Every overflow link (FAQ, Testimonials, Shop, Contact)
+ *   - Every overflow link (FAQ, Testimonials, Contact)
  *   - ⬥ Pricing in amber
  *   - Phone (978) 216-6455
  *   - Text Tony (sms:)
@@ -51,10 +51,11 @@ const primaryLinks = [
   { label: "Blog", href: "/blog" },
 ] as const;
 
+// Shop removed (design-system.md §11 recommended deletion for trade businesses;
+// /shop route was never scaffolded; pre-launch-auditor flagged the dead nav link).
 const overflowLinks = [
   { label: "FAQ", href: "/faq" },
   { label: "Testimonials", href: "/testimonials" },
-  { label: "Shop", href: "/shop" },
   { label: "Contact", href: "/contact" },
 ] as const;
 

@@ -578,12 +578,15 @@ export default function BlogPostClient({ article, related }: Props) {
                 <BlockRenderer key={i} block={block} />
               ))}
 
-              {/* End-of-post CTA card */}
+              {/* End-of-post CTA card. Top accent bar (not left) per
+                  Pattern #56 — keeps left-accent-border-on-rounded-cards count
+                  within the AI-signature ceiling of 2 in this file (callout +
+                  blockquote already use left-accent semantically). */}
               <div
                 style={{
                   background: "var(--bg-card-light)",
                   border: "1px solid var(--border-card-light)",
-                  borderLeft: "4px solid var(--primary)",
+                  borderTop: "4px solid var(--primary)",
                   borderRadius: "var(--radius-lg)",
                   padding: "var(--space-lg)",
                   marginTop: "var(--space-2xl)",

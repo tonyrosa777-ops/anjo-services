@@ -181,7 +181,7 @@ export default function PricingPage() {
     meta.name = "robots";
     meta.content = "noindex, nofollow";
     document.head.appendChild(meta);
-    document.title = "Pricing — Optimus Sales Tool";
+    document.title = "Pricing | Optimus Sales Tool";
     return () => {
       document.head.removeChild(meta);
     };
