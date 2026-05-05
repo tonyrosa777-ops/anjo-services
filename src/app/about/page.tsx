@@ -37,8 +37,8 @@ export const metadata: Metadata = {
  *     wrapped in `relative z-10`. H1 uses .hero-shimmer font-display text-h1
  *     font-bold (interior pages NEVER use text-display).
  *   - Two-column body: photo + identity left, three-paragraph origin story
- *     right. Photo placeholder at /about/tony-placeholder.jpg pending Stage 1G
- *     fal.ai or client-supplied portrait.
+ *     right. Real Tony photo at /about/tony.png — kneeling on a job-site
+ *     floor mid-install with tools laid out.
  *   - Stats row: 3 trust signals via <CountUp /> for the numeric values.
  *   - CTA section bottom routes to /booking (siteConfig.ctaPrimary).
  *
@@ -170,14 +170,14 @@ export default function AboutPage() {
                     border: "1px solid var(--border-card-light)",
                   }}
                 >
-                  {/* Photo placeholder — Stage 1G fal.ai or client-supplied. Image
-                      tag uses next/image for lazy-load + sizing. The component
-                      will fall back to `alt` text styling if the file is absent
-                      in the demo, but the demo build still ships with the
+                  {/* Real Tony photo at /about/tony.png — kneeling on a wood
+                      floor mid-install with level, framing square, hammers,
+                      and a Makita drill in the belt. Colonial neighborhood
+                      visible through the window. Replaces the fal.ai
                       placeholder. */}
                   <Image
-                    src="/about/tony-placeholder.jpg"
-                    alt="Tony Squillini, owner of Anjo Services"
+                    src="/about/tony.png"
+                    alt="Tony Squillini on a job site, tool belt and level in hand, framing square and hammers laid out on the wood floor he is finishing — Anjo Services, LLC owner"
                     fill
                     sizes="(min-width: 1024px) 40vw, 90vw"
                     style={{ objectFit: "cover" }}

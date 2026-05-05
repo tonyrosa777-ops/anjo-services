@@ -8,8 +8,10 @@
  *
  * Layout: photo (left) + 1-paragraph hook (right) with name, tenure, license
  * line, and "Read Tony's story" link. NOT the full /about content — strictly
- * a teaser. Photo placeholder served from /about/tony-placeholder.jpg
- * (Stage 1G fal.ai or client-supplied).
+ * a teaser. Real Tony photo at /about/tony.png — kneeling on a job-site
+ * floor mid-install with tools laid out (level, framing square, hammers,
+ * Makita drill on the tool belt). Brand archetype exactly: real working
+ * contractor, no studio staging, colonial neighborhood through the window.
  *
  * Dark tone background per Homepage Section Architecture Rule:
  * --bg-dark-base + radial overlay + 1 breathing orb. Within motion budget.
@@ -71,8 +73,8 @@ export default function AboutTeaser() {
               }}
             >
               <Image
-                src="/about/tony-placeholder.jpg"
-                alt="Tony Squillini, owner of Anjo Services"
+                src="/about/tony.png"
+                alt="Tony Squillini on a job site, tool belt and level in hand, framing square and hammers laid out on the wood floor he is finishing — Anjo Services, LLC owner"
                 fill
                 sizes="(min-width: 1024px) 35vw, 90vw"
                 priority
