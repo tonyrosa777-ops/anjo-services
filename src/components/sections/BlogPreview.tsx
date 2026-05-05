@@ -5,60 +5,37 @@
  * rhythm map.
  *
  * Tone: dark. Purpose: content preview.
- * Layout: 3 placeholder blog cards in a horizontal row.
- * Each card: 16:9 placeholder image, category chip, title, 2-sentence excerpt,
- * "Read more" link → /blog/[slug].
+ * Layout: 3 blog cards (the 3 most recent articles by publishedAt desc) in a
+ * horizontal row.
  *
- * Three placeholder titles aligned with market-intelligence.md §6 AEO gaps:
- *   1. "How much does a kitchen remodel cost in Methuen MA in 2025?"
- *   2. "What questions to ask before hiring a contractor in MA"
- *   3. "Coffered ceiling installation: 4 styles for a 1980s colonial."
+ * Data source: src/data/blog.ts (Stage 1G — refactored from hardcoded
+ * placeholderPosts to live blogArticles). Each card uses the article's
+ * cardImage with a gradient + emoji fallback if the image is missing.
  *
- * Image paths: /blog/placeholder-{slug}-card.jpg — Stage 1G fal.ai will
- * replace these with real images. Until then we render a styled placeholder.
- *
- * All copy marked [DEMO COPY — pending blog Stage 1G].
+ * The CARD layout on the homepage matches the article card on /blog so users
+ * see consistent visual language between the preview and the index.
  */
 
 import Link from "next/link";
 import { ScaleIn } from "@/components/animations";
+import { blogArticles, type BlogCategory } from "@/data/blog";
 
-type BlogCard = {
-  slug: string;
-  category: string;
-  title: string;
-  excerpt: string;
-  imageSrc: string;
+const CATEGORY_EMOJI: Record<BlogCategory, string> = {
+  "Cost Guides": "💸",
+  "Hire Smart": "📋",
+  "Project Process": "🛠️",
+  "Finish Carpentry": "🪚",
+  "Permits & Law": "⚖️",
 };
 
-// [DEMO COPY — pending blog Stage 1G]
-const placeholderPosts: BlogCard[] = [
-  {
-    slug: "kitchen-remodel-cost-methuen-ma-2025",
-    category: "Pricing",
-    title: "How much does a kitchen remodel cost in Methuen MA in 2025?",
-    excerpt:
-      "Most of our Methuen, Andover, and Haverhill kitchens land between $35,000 and $45,000. Here is the line-item breakdown of where the dollars actually go.",
-    imageSrc: "/blog/placeholder-kitchen-remodel-cost-methuen-ma-2025-card.jpg",
-  },
-  {
-    slug: "questions-to-ask-before-hiring-contractor-ma",
-    category: "Hiring Guide",
-    title: "What questions to ask before hiring a contractor in MA",
-    excerpt:
-      "Three signals tell you whether a contractor will actually show up. License lookup, written line items, and a real address you can drive past. The rest is marketing.",
-    imageSrc:
-      "/blog/placeholder-questions-to-ask-before-hiring-contractor-ma-card.jpg",
-  },
-  {
-    slug: "coffered-ceiling-styles-1980s-colonial",
-    category: "Finish Carpentry",
-    title: "Coffered ceiling installation: 4 styles for a 1980s colonial.",
-    excerpt:
-      "Square grid, beam-and-flat, recessed panel, or shadow box. Photos from real Methuen and Andover dining rooms with prices and lead times attached.",
-    imageSrc: "/blog/placeholder-coffered-ceiling-styles-1980s-colonial-card.jpg",
-  },
-];
+// First 3 by publishedAt desc.
+const featuredPosts = blogArticles
+  .slice()
+  .sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+  )
+  .slice(0, 3);
 
 export default function BlogPreview() {
   return (
@@ -106,7 +83,7 @@ export default function BlogPreview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-          {placeholderPosts.map((post, i) => (
+          {featuredPosts.map((post, i) => (
             <ScaleIn key={post.slug} delay={i * 0.08} from={0.96}>
               <Link
                 href={`/blog/${post.slug}`}
@@ -125,7 +102,7 @@ export default function BlogPreview() {
                   e.currentTarget.style.borderColor = "var(--border-card-dark)";
                 }}
               >
-                {/* 16:9 placeholder — fal.ai will replace at Stage 1G */}
+                {/* 16:9 image with gradient + emoji fallback */}
                 <div
                   aria-hidden="true"
                   style={{
@@ -138,6 +115,22 @@ export default function BlogPreview() {
                     overflow: "hidden",
                   }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={post.cardImage}
+                    alt=""
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display =
+                        "none";
+                    }}
+                  />
                   <div
                     style={{
                       position: "absolute",
@@ -147,13 +140,10 @@ export default function BlogPreview() {
                       justifyContent: "center",
                       fontSize: "3rem",
                       opacity: 0.45,
+                      pointerEvents: "none",
                     }}
                   >
-                    {post.category === "Finish Carpentry"
-                      ? "🪚"
-                      : post.category === "Pricing"
-                        ? "💸"
-                        : "📋"}
+                    {CATEGORY_EMOJI[post.category]}
                   </div>
                 </div>
                 <div style={{ padding: "var(--space-md) var(--space-md) var(--space-lg)" }}>
@@ -190,6 +180,10 @@ export default function BlogPreview() {
                       color: "var(--text-secondary)",
                       lineHeight: 1.55,
                       marginBottom: "var(--space-md)",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
                     }}
                   >
                     {post.excerpt}

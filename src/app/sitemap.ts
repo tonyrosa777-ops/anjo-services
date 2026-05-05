@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { services, serviceAreas } from "@/data/site";
+import { blogArticles } from "@/data/blog";
 
 /**
  * sitemap.ts — Anjo Services, LLC.
@@ -13,8 +14,6 @@ import { services, serviceAreas } from "@/data/site";
  *                     pre-launch-auditor flags any sitemap entry for
  *                     /pricing as a hard FAIL.
  *   - /api/*        — API route handlers, never crawled.
- *   - /studio       — reserved for Stage 1G Sanity studio mount.
- *   - /blog/*       — Stage 1G adds blog routes; sitemap regenerated then.
  *
  * Priority + changeFrequency rationale (market-intelligence §6 SEO weighting):
  *   1.00  /                    — homepage, primary entry
@@ -22,6 +21,7 @@ import { services, serviceAreas } from "@/data/site";
  *   0.90  /booking             — final conversion path
  *   0.85  /services/[slug]     — six service detail pages
  *   0.85  /services/cost       — high-leverage cost-transparency page
+ *   0.85  /blog                — AEO content hub
  *   0.80  /about               — founder trust
  *   0.80  /contact             — secondary conversion path
  *   0.80  /service-areas       — service-area index
@@ -29,6 +29,7 @@ import { services, serviceAreas } from "@/data/site";
  *   0.70  /quiz                — lead funnel
  *   0.70  /faq                 — AEO answer-bait surface
  *   0.70  /testimonials        — verbal social proof
+ *   0.70  /blog/[slug]         — nine AEO-targeted blog posts
  *   0.70  /gallery             — visual social proof
  */
 
@@ -104,6 +105,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    {
+      url: `${BASE}/blog`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
   ];
 
   // Six per-service detail pages (services[] order locked: finish-carpentry leads).
@@ -122,8 +129,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
+  // Nine blog post pages from blogArticles[]. publishedAt drives lastModified
+  // so search engines see real recency for each article.
+  const blogRoutes: MetadataRoute.Sitemap = blogArticles.map((a) => ({
+    url: `${BASE}/blog/${a.slug}`,
+    lastModified: new Date(a.publishedAt),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   // /pricing is INTENTIONALLY EXCLUDED — Optimus internal sales tool, deleted
   // before launch per CLAUDE.md Always-Built Features Rule. Do not add it.
 
-  return [...staticRoutes, ...serviceRoutes, ...cityRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...cityRoutes, ...blogRoutes];
 }
