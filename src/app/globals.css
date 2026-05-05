@@ -1,26 +1,207 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Anjo Services, LLC — Design Tokens
+   Source: design-system.md (Sections 2, 3, 4) + CLAUDE.md
+           Optimus Positioning Rule + Homepage Section Architecture Rule.
+   Brand archetype: TRADE AUTHORITY (red / matte black / warm bone).
+   Honors:
+     - feedback_dark-section-radial-gradients.md (no flat solid backgrounds)
+     - CSS Scaffold Completeness Rule (full --space-* scale, all clamp())
+     - Error #39 (undefined CSS vars silently collapse layout)
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ----- Brand colors ----- */
+  --primary: #c8202c;            /* Anjo brand red — locked from 4 candidates */
+  --primary-muted: #9a1922;      /* hover state for primary buttons (~12% darker) */
+  --accent: #e8b04c;             /* warm amber — sparingly, hero-shimmer + 1px detail accents only. NEVER on CTAs. */
+  --trust-signal: #9a9a9a;       /* license badges, BBB, Google review stars — NEVER gold */
+
+  /* ----- Background scale (dark theme — primary canvas) ----- */
+  --bg-dark-base: #0a0a0a;       /* near-black foundation. NEVER pure #000. */
+  --bg-dark-overlay-radial:
+    radial-gradient(ellipse at 30% 20%, rgba(200, 32, 44, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 80%, rgba(232, 176, 76, 0.06) 0%, transparent 60%);
+  --bg-elevated-dark: #141414;
+  --bg-card-dark: rgba(255, 255, 255, 0.04);
+  --border-card-dark: rgba(255, 255, 255, 0.08);
+
+  /* ----- Background scale (light theme — gallery / pricing / about) ----- */
+  --bg-base: #f8f7f4;            /* warm bone off-white. NEVER pure #FFF. */
+  --bg-elevated: #fafafa;
+  --bg-card-light: #ffffff;
+  --border-card-light: #e8e5df;
+  --bg-light-overlay-radial:
+    radial-gradient(ellipse at 25% 15%, rgba(200, 32, 44, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 85%, rgba(232, 176, 76, 0.05) 0%, transparent 60%);
+
+  /* ----- Text scale ----- */
+  --text-primary: #f5f5f2;       /* on dark bg — also used for hero H1 always */
+  --text-primary-light: #161616; /* on light bg */
+  --text-secondary: #b8b5ae;     /* on dark bg */
+  --text-secondary-light: #4a4744;
+  --text-muted: #7a7770;
+  --text-muted-light: #6f6c65;
+
+  /* ----- Spacing scale (Optimus standard — Error #39: ALL must be defined) ----- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 6rem;
+  --space-4xl: 8rem;
+
+  /* ----- Container widths ----- */
+  --container-narrow: 720px;
+  --container-default: 1120px;
+  --container-wide: 1280px;
+
+  /* ----- Border radius (squared / slightly-rounded — NO pills) ----- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ----- Type scale (all clamp() per CSS Scaffold Completeness Rule) ----- */
+  --text-display: clamp(2.75rem, 4vw + 1rem, 5.5rem);     /* hero H1 */
+  --text-h1: clamp(2.25rem, 3vw + 0.75rem, 4rem);          /* page H1 */
+  --text-h2: clamp(1.75rem, 2vw + 0.5rem, 2.75rem);
+  --text-h3: clamp(1.375rem, 1.25vw + 0.5rem, 1.875rem);
+  --text-h4: clamp(1.125rem, 0.75vw + 0.875rem, 1.5rem);
+  --text-eyebrow: clamp(0.75rem, 0.25vw + 0.625rem, 0.875rem);
+  --text-body-lg: clamp(1.0625rem, 0.5vw + 0.875rem, 1.25rem);
+  --text-body: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-meta: 0.8125rem;
+
+  /* ----- Font families (loaded via next/font/google in layout.tsx) ----- */
+  --font-display: var(--font-saira-condensed), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  /* ----- Motion timing ----- */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Tailwind v4 theme bridge — exposes our tokens as Tailwind utilities */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-muted: var(--primary-muted);
+  --color-accent: var(--accent);
+  --color-bg-base: var(--bg-base);
+  --color-bg-dark: var(--bg-dark-base);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-display: var(--font-saira-condensed);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Scroll padding — matches sticky nav height at each breakpoint (Error #49) */
+html {
+  scroll-padding-top: 6rem;          /* mobile: 96px */
+}
+@media (min-width: 640px) {
+  html { scroll-padding-top: 7rem; } /* sm: 112px */
+}
+@media (min-width: 1024px) {
+  html { scroll-padding-top: 8rem; } /* lg: 128px */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-dark-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Type utility classes — referenced by every page header
+   (CLAUDE.md Skill File Name Aliases + website-build-template.md)
+   ============================================================ */
+
+.text-display { font-size: var(--text-display); line-height: 1.05; letter-spacing: -0.02em; }
+.text-h1      { font-size: var(--text-h1);      line-height: 1.1;  letter-spacing: -0.015em; }
+.text-h2      { font-size: var(--text-h2);      line-height: 1.15; letter-spacing: -0.01em; }
+.text-h3      { font-size: var(--text-h3);      line-height: 1.2; }
+.text-h4      { font-size: var(--text-h4);      line-height: 1.25; }
+.text-eyebrow { font-size: var(--text-eyebrow); line-height: 1.2; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+.text-body-lg { font-size: var(--text-body-lg); line-height: 1.5; }
+.text-body    { font-size: var(--text-body);    line-height: 1.6; }
+.text-body-sm { font-size: var(--text-body-sm); line-height: 1.55; }
+.text-meta    { font-size: var(--text-meta);    line-height: 1.5; }
+
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* ============================================================
+   Animations — homepage hero + ambient interior pages
+   ============================================================ */
+
+/* Hero shimmer — warm variant (red + amber sweep) for Anjo's warm brand.
+   Applied on H1 always per Hero Architecture Rule. */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.hero-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--text-primary) 0%,
+    var(--accent) 40%,
+    var(--text-primary) 60%,
+    var(--accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Breathing orb — interior page ambient background.
+   Per Homepage Section Architecture Rule: interior pages get ambient,
+   not the full 3-layer hero stack. */
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: 0.15; }
+  50%      { transform: scale(1.15); opacity: 0.25; }
+}
+.orb        { animation: breathe 12s ease-in-out infinite; }
+.orb-2      { animation: breathe 12s ease-in-out -4s infinite; }
+.orb-3      { animation: breathe 12s ease-in-out -8s infinite; }
+
+/* Mesh drift — for hero-adjacent dark sections (15-25s cycle, GPU-cheap).
+   One motion vocabulary per section — never stack. */
+@keyframes mesh-drift {
+  0%   { background-position:   0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position:   0% 50%; }
+}
+
+/* ============================================================
+   Accessibility — prefers-reduced-motion degrades to STATIC
+   gradient (never flat) per CLAUDE.md Visual QA Rule
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Keep gradients visible — only motion stops */
+  .orb, .orb-2, .orb-3 { opacity: 0.18; }
 }
