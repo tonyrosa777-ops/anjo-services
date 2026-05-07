@@ -9,19 +9,18 @@
  * Page structure:
  *   1. Page header (h1 + subtitle + ambient breathing orb gradient)
  *   2. BeforeAfterSlider with 3 featured pairs (lead = Andover coffered ceiling)
- *   3. Project grid — 12 cards, 3 cols desktop / 2 cols tablet / 1 col mobile.
- *      Each card: 16:9 image + caption block (town · scope · price · year).
- *      Order leads with finish carpentry.
+ *   3. <GalleryGrid /> — sticky filter chips + animated 3-col grid covering
+ *      all 6 Anjo offerings (54 items total: 9 per category). Pattern derived
+ *      from Placed-Right-Fence/web/src/app/gallery/GalleryGrid.tsx.
  *   4. Booking CTA at bottom (Schedule a Walkthrough → /booking)
  *
- * Placeholder image src pattern (Stage 1G fal.ai output replaces these
- * exact paths in place):
- *   /gallery/{slug}-before.jpg
- *   /gallery/{slug}-after.jpg     (for slider pairs)
- *   /gallery/{slug}.jpg           (for single-image grid cards)
+ * Items live in /data/gallery.ts. Image src pattern:
+ *   /gallery/{slug}.jpg              — single grid card
+ *   /gallery/{slug}-before.jpg       — slider before (3 pairs only)
+ *   /gallery/{slug}-after.jpg        — slider after (3 pairs only)
  *
- * No 'use client' here — page is server-rendered. The interactive slider is
- * its own client component imported below.
+ * Page is server-rendered. The interactive slider and the filter grid are
+ * client components imported below.
  */
 
 import type { Metadata } from "next";
@@ -31,162 +30,33 @@ import BeforeAfterSlider, {
 } from "@/components/BeforeAfterSlider";
 import TextTonyCTA from "@/components/TextTonyCTA";
 import { BreadcrumbSchema } from "@/components/seo";
+import GalleryGrid from "./GalleryGrid";
 
 export const metadata: Metadata = {
-  title: "Project Gallery: Coffered Ceilings, Kitchens, Baths, Decks",
+  title: "Project Gallery: Finish Carpentry, Kitchens, Baths, Decks, Painting, Handyman",
   description:
-    "Real Anjo project photos across Methuen, Andover, Haverhill, North Andover, Lawrence, Salem NH, Derry, and Windham. Town, scope, price, and year on every photo.",
+    "Real Anjo project photos across Methuen, Andover, Haverhill, North Andover, Lawrence, Salem NH, Derry, and Windham. Filter by category. Town, scope, price, and year on every photo.",
   alternates: { canonical: "/gallery" },
   openGraph: {
     type: "website",
     url: "https://anjoservices.com/gallery",
     siteName: "Anjo Services, LLC",
     locale: "en_US",
-    title: "Project Gallery: Coffered Ceilings, Kitchens, Baths, Decks",
+    title:
+      "Project Gallery: Finish Carpentry, Kitchens, Baths, Decks, Painting, Handyman",
     description:
       "Real Anjo project photos. Town, scope, price, year on every image. Methuen, Andover, Haverhill, Salem NH and beyond.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Project Gallery: Coffered Ceilings, Kitchens, Baths, Decks",
+    title:
+      "Project Gallery: Finish Carpentry, Kitchens, Baths, Decks, Painting, Handyman",
     description:
       "Real Anjo project photos. Town, scope, price, year on every image.",
   },
 };
 
-interface GalleryItem {
-  slug: string;
-  category:
-    | "Finish Carpentry"
-    | "Kitchen"
-    | "Bath"
-    | "Deck"
-    | "Painting"
-    | "Handyman";
-  town: string;
-  scope: string;
-  priceBand: string;
-  year: string;
-  alt: string;
-}
-
-// 12 placeholder cards — Stage 1G replaces the imagery in /public/gallery
-// at the same slug-based filenames. Lead with finish carpentry per spec.
-const GALLERY_ITEMS: GalleryItem[] = [
-  {
-    slug: "andover-coffered-ceiling",
-    category: "Finish Carpentry",
-    town: "Andover, MA",
-    scope: "Coffered ceiling, dining room",
-    priceBand: "$4,200",
-    year: "2024",
-    alt: "Andover dining room with newly installed coffered ceiling, painted millwork grid in warm white.",
-  },
-  {
-    slug: "methuen-board-and-batten",
-    category: "Finish Carpentry",
-    town: "Methuen, MA",
-    scope: "Board and batten accent wall, primary bedroom",
-    priceBand: "$2,400",
-    year: "2024",
-    alt: "Methuen primary bedroom board and batten accent wall painted Hale Navy.",
-  },
-  {
-    slug: "north-andover-shiplap-entry",
-    category: "Finish Carpentry",
-    town: "North Andover, MA",
-    scope: "Shiplap entryway, floor to ceiling",
-    priceBand: "$1,950",
-    year: "2024",
-    alt: "North Andover entryway with full-height shiplap painted bright white.",
-  },
-  {
-    slug: "windham-built-in-bookcase",
-    category: "Finish Carpentry",
-    town: "Windham, NH",
-    scope: "Custom home-office built-in bookcase wall",
-    priceBand: "$5,200",
-    year: "2024",
-    alt: "Windham home office with painted custom built-in bookcase spanning a 14-foot wall.",
-  },
-  {
-    slug: "methuen-kitchen-remodel",
-    category: "Kitchen",
-    town: "Methuen, MA",
-    scope: "Full kitchen remodel, cabinets, quartz, island",
-    priceBand: "$42,000",
-    year: "2024",
-    alt: "Methuen kitchen after remodel with painted shaker cabinets, quartz counters, and an island.",
-  },
-  {
-    slug: "andover-kitchen-island",
-    category: "Kitchen",
-    town: "Andover, MA",
-    scope: "Kitchen + 9-foot island, quartz counters",
-    priceBand: "$52,000",
-    year: "2024",
-    alt: "Andover open-plan kitchen with a 9-foot quartz island and pendant lighting.",
-  },
-  {
-    slug: "haverhill-kitchen-refresh",
-    category: "Kitchen",
-    town: "Haverhill, MA",
-    scope: "Cabinet refresh, counters, lighting, paint",
-    priceBand: "$28,500",
-    year: "2024",
-    alt: "Haverhill kitchen after a partial refresh with painted cabinets and updated lighting.",
-  },
-  {
-    slug: "salem-nh-primary-bath",
-    category: "Bath",
-    town: "Salem, NH",
-    scope: "Primary bath gut, tile shower, double vanity",
-    priceBand: "$18,000",
-    year: "2024",
-    alt: "Salem NH primary bath with curbless tile shower and a double-sink vanity.",
-  },
-  {
-    slug: "andover-hall-bath",
-    category: "Bath",
-    town: "Andover, MA",
-    scope: "Hall bath remodel, tile, vanity, fixtures",
-    priceBand: "$16,800",
-    year: "2024",
-    alt: "Andover hall bathroom with new tile, vanity, and updated fixtures.",
-  },
-  {
-    slug: "haverhill-deck",
-    category: "Deck",
-    town: "Haverhill, MA",
-    scope: "Composite deck, 16 by 20, hidden fasteners",
-    priceBand: "$14,000",
-    year: "2023",
-    alt: "Haverhill backyard with a finished composite deck, railings, and stairs to the lawn.",
-  },
-  {
-    slug: "windham-cedar-pergola",
-    category: "Deck",
-    town: "Windham, NH",
-    scope: "Cedar pergola over patio, 14 by 16",
-    priceBand: "$7,200",
-    year: "2024",
-    alt: "Windham backyard cedar pergola spanning a 14 by 16 patio with string lights.",
-  },
-  {
-    slug: "methuen-cedar-fence",
-    category: "Deck",
-    town: "Methuen, MA",
-    scope: "Cedar privacy fence, 180 feet, two gates",
-    priceBand: "$8,400",
-    year: "2024",
-    alt: "Methuen yard with a long cedar privacy fence and two matching gates.",
-  },
-];
-
-// Lead the in-page slider with the same 3 marquee pairs the homepage uses,
-// minus the deck (different page rhythm — page wants the kitchen up front
-// after the coffered ceiling per market-intelligence.md §9 strategic
-// recommendation #2 trojan-horse pattern: ceiling → kitchen).
+// Lead the in-page slider with the same 3 marquee pairs the homepage uses.
 const FEATURED_PAIRS: BeforeAfterPair[] = [
   {
     id: "andover-coffered-ceiling",
@@ -241,6 +111,7 @@ export default function GalleryPage() {
           { name: "Gallery", url: "/gallery" },
         ]}
       />
+
       {/* Page header — light tone, ambient breathing orb */}
       <section
         className="relative w-full"
@@ -255,7 +126,6 @@ export default function GalleryPage() {
           className="absolute inset-0 pointer-events-none"
           style={{ background: "var(--bg-light-overlay-radial)" }}
         />
-        {/* Single breathing orb for ambient motion (1 motion layer, within budget) */}
         <div
           aria-hidden="true"
           className="absolute pointer-events-none orb"
@@ -301,10 +171,10 @@ export default function GalleryPage() {
             className="text-body-lg font-body max-w-2xl"
             style={{ color: "var(--text-secondary-light)" }}
           >
-            Coffered ceilings, kitchens, baths, and decks across Methuen,
-            Andover, Haverhill, and Salem NH. Every photo is a real Anjo
-            project. Every caption names the town, the scope, the price band,
-            and the year.
+            Finish carpentry, kitchens, baths, decks, painting, and honey-do
+            jobs across Methuen, Andover, Haverhill, North Andover, Lawrence,
+            Salem NH, Derry, and Windham. Filter by category. Every caption
+            names the town, the scope, the price band, and the year.
           </p>
         </div>
       </section>
@@ -336,137 +206,8 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Project grid — dark tone for visual contrast against the slider above */}
-      <section
-        className="relative w-full"
-        style={{
-          background: "var(--bg-dark-base)",
-          color: "var(--text-primary)",
-        }}
-        aria-label="All projects"
-      >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "var(--bg-dark-overlay-radial)" }}
-        />
-
-        <div
-          className="relative mx-auto px-6 lg:px-8"
-          style={{
-            maxWidth: "var(--container-wide)",
-            paddingTop: "clamp(3rem, 6vw, 5rem)",
-            paddingBottom: "clamp(3rem, 6vw, 5rem)",
-            zIndex: 10,
-          }}
-        >
-          <div className="flex flex-col gap-3 mb-10 max-w-2xl">
-            <p
-              className="text-eyebrow font-display"
-              style={{ color: "var(--accent)" }}
-            >
-              All Projects
-            </p>
-            <h2
-              className="text-h2 font-display font-black"
-              style={{
-                color: "var(--text-primary)",
-                letterSpacing: "-0.01em",
-                lineHeight: 1.1,
-              }}
-            >
-              Twelve finished jobs. New work added monthly.
-            </h2>
-            <p
-              className="text-body font-body"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Lead with finish carpentry (Tony&apos;s favorite work). Then kitchens,
-              baths, and decks. Click any card to see notes and a project
-              walk-through.
-            </p>
-          </div>
-
-          {/* 3-col / 2-col / 1-col grid */}
-          <ul
-            className="grid gap-6"
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            }}
-          >
-            {GALLERY_ITEMS.map((item) => (
-              <li key={item.slug}>
-                <article
-                  className="relative rounded-[var(--radius-lg)] overflow-hidden h-full flex flex-col transition-all"
-                  style={{
-                    background: "var(--bg-card-dark)",
-                    border: "1px solid var(--border-card-dark)",
-                  }}
-                >
-                  {/* 16:9 image */}
-                  <div
-                    className="relative w-full overflow-hidden"
-                    style={{
-                      aspectRatio: "16 / 9",
-                      background: "var(--bg-elevated-dark)",
-                    }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`/gallery/${item.slug}.jpg`}
-                      alt={item.alt}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    {/* Category chip top-left */}
-                    <span
-                      className="absolute font-display font-bold uppercase"
-                      style={{
-                        top: "var(--space-sm)",
-                        left: "var(--space-sm)",
-                        padding: "0.25rem 0.625rem",
-                        fontSize: "var(--text-eyebrow)",
-                        letterSpacing: "0.08em",
-                        background: "rgba(10, 10, 10, 0.75)",
-                        color: "var(--text-primary)",
-                        borderRadius: "var(--radius-sm)",
-                      }}
-                    >
-                      {item.category}
-                    </span>
-                  </div>
-
-                  {/* Caption block */}
-                  <div
-                    className="flex flex-col gap-2"
-                    style={{ padding: "var(--space-md)" }}
-                  >
-                    <h3
-                      className="text-h4 font-display font-bold"
-                      style={{
-                        color: "var(--text-primary)",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {item.scope}
-                    </h3>
-                    <p
-                      className="font-mono"
-                      style={{
-                        color: "var(--text-muted)",
-                        fontSize: "var(--text-meta)",
-                        letterSpacing: "0.02em",
-                      }}
-                    >
-                      {item.town} · {item.priceBand} · {item.year}
-                    </p>
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      {/* Filter chips + animated grid — dark tone for contrast */}
+      <GalleryGrid />
 
       {/* Bottom CTA — light tone for alternation */}
       <section
