@@ -1,0 +1,15 @@
+{
+  "storeId": 0,
+  "products": [
+    { "slug": "crew-hoodie-champion", "name": "Anjo Crew Champion Hoodie", "printful_id": 423852126, "price": 53.49, "category": "Apparel", "preview_image_url": "/products/anjo-crew-hoodie-champion.jpg" },
+    { "slug": "crop-hoodie", "name": "Anjo Crop Hoodie", "printful_id": 424087627, "price": 54.5, "category": "Apparel", "preview_image_url": "/products/anjo-crop-hoodie.jpg" },
+    { "slug": "strap-apron", "name": "Anjo Workshop Apron", "printful_id": 423852991, "price": 37, "category": "Apparel", "preview_image_url": "/products/anjo-strap-apron.jpg" },
+    { "slug": "insulated-tumbler", "name": "Anjo Insulated Tumbler with Straw", "printful_id": 423853952, "price": 35, "category": "Drinkware", "preview_image_url": "/products/anjo-insulated-tumbler.jpg" },
+    { "slug": "water-bottle-stainless", "name": "Anjo Stainless Steel Water Bottle", "printful_id": 423852888, "price": 40.5, "category": "Drinkware", "preview_image_url": "/products/anjo-water-bottle-stainless.jpg" },
+    { "slug": "mug-white-glossy", "name": "Anjo White Glossy Mug", "printful_id": 423852842, "price": 16.5, "category": "Drinkware", "preview_image_url": "/products/anjo-mug-white-glossy.jpg" },
+    { "slug": "mug-black-glossy", "name": "Anjo Black Glossy Mug", "printful_id": 423853234, "price": 19, "category": "Drinkware", "preview_image_url": "/products/anjo-mug-black-glossy.jpg" },
+    { "slug": "notebook-hardcover", "name": "Anjo Project Notebook (Hardcover)", "printful_id": 423853375, "price": 24.5, "category": "Home & Stationery", "preview_image_url": "/products/anjo-notebook-hardcover.jpg" },
+    { "slug": "journal-spiral", "name": "Anjo Punch-List Journal", "printful_id": 423853188, "price": 22.5, "category": "Home & Stationery", "preview_image_url": "/products/anjo-journal-spiral.jpg" },
+    { "slug": "tote-canvas", "name": "Anjo Canvas Tote", "printful_id": 423852340, "price": 28.5, "category": "Bags", "preview_image_url": "/products/anjo-tote-canvas.jpg" }
+  ]
+}

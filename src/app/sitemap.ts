@@ -31,6 +31,9 @@ import { blogArticles } from "@/data/blog";
  *   0.70  /testimonials        — verbal social proof
  *   0.70  /blog/[slug]         — nine AEO-targeted blog posts
  *   0.70  /gallery             — visual social proof
+ *   0.70  /shop                — Anjo crew merch (scaffolded; deletion at launch
+ *                                is a pre-launch-auditor decision per CLAUDE.md
+ *                                Always-Built Features Rule + design-system.md §11)
  */
 
 const BASE = "https://anjoservices.com";
@@ -110,6 +113,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "weekly",
       priority: 0.85,
+    },
+    {
+      url: `${BASE}/shop`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
   ];
 

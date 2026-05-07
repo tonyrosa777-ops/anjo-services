@@ -43,16 +43,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig, services, serviceAreas } from "@/data/site";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/lib/cart";
 
 const primaryLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Gallery", href: "/gallery" },
   { label: "Blog", href: "/blog" },
+  { label: "Shop", href: "/shop" },
 ] as const;
 
-// Shop removed (design-system.md §11 recommended deletion for trade businesses;
-// /shop route was never scaffolded; pre-launch-auditor flagged the dead nav link).
 const overflowLinks = [
   { label: "FAQ", href: "/faq" },
   { label: "Testimonials", href: "/testimonials" },
@@ -225,6 +225,7 @@ export default function Navigation() {
 
             <NavLink href="/gallery">Gallery</NavLink>
             <NavLink href="/blog">Blog</NavLink>
+            <NavLink href="/shop">Shop</NavLink>
 
             {/* More overflow (click-toggle) */}
             <div ref={moreRef} className="relative">
@@ -375,6 +376,7 @@ export default function Navigation() {
             >
               {siteConfig.ctaTextTony.label}
             </a>
+            <CartIconButton variant="desktop" />
             <Link
               href={siteConfig.ctaSecondaryQuiz.href}
               className="inline-flex items-center justify-center font-display font-bold uppercase rounded-md transition-colors"
@@ -885,6 +887,7 @@ function MobileDrawer({
               >
                 💬 {siteConfig.ctaTextTony.label}
               </a>
+              <CartIconButton variant="drawer" onClose={onClose} />
               <Link
                 href={siteConfig.ctaSecondaryQuiz.href}
                 onClick={onClose}
@@ -944,5 +947,111 @@ function DrawerSectionHeader({ children }: { children: React.ReactNode }) {
     >
       {children}
     </p>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/*  Cart icon button (desktop right cluster + mobile drawer)                   */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * CartIconButton — opens the global CartDrawer (mounted in layout.tsx).
+ *
+ * Two variants:
+ *   - desktop: compact icon in the nav right cluster, between Text Tony and
+ *     Take the Quiz. Outline style (matches Text Tony) + count badge.
+ *   - drawer: full-width CTA matching the mobile drawer's Phone/Text/Quiz
+ *     stack, with onClose so it dismisses the drawer when tapped.
+ *
+ * Per CLAUDE.md Always-Built Features Rule, the cart icon is the e-commerce
+ * conversion signal — it stays in nav whether or not items are in the cart.
+ * Count badge only renders when count > 0 (no zero-state visual noise).
+ */
+function CartIconButton({
+  variant,
+  onClose,
+}: {
+  variant: "desktop" | "drawer";
+  onClose?: () => void;
+}) {
+  const { count, openCart } = useCart();
+
+  function handleClick() {
+    if (onClose) onClose();
+    openCart();
+  }
+
+  if (variant === "desktop") {
+    return (
+      <button
+        type="button"
+        onClick={handleClick}
+        className="relative inline-flex items-center justify-center font-display font-bold uppercase rounded-md transition-colors"
+        style={{
+          background: "transparent",
+          color: "var(--text-primary)",
+          padding: "0.5rem 0.75rem",
+          border: "1px solid var(--border-card-dark)",
+          fontSize: "var(--text-eyebrow)",
+          letterSpacing: "0.08em",
+        }}
+        aria-label={`Open cart${count > 0 ? ` — ${count} item${count !== 1 ? "s" : ""}` : ""}`}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "var(--primary)";
+          e.currentTarget.style.background = "var(--primary-soft)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--border-card-dark)";
+          e.currentTarget.style.background = "transparent";
+        }}
+      >
+        <span aria-hidden="true" style={{ fontSize: "1rem", lineHeight: 1 }}>
+          🛒
+        </span>
+        {count > 0 && (
+          <span
+            aria-hidden="true"
+            className="absolute font-mono"
+            style={{
+              top: "-0.375rem",
+              right: "-0.375rem",
+              minWidth: "1.125rem",
+              height: "1.125rem",
+              padding: "0 0.25rem",
+              background: "var(--primary)",
+              color: "var(--text-primary)",
+              fontSize: "0.625rem",
+              fontWeight: 700,
+              lineHeight: "1.125rem",
+              textAlign: "center",
+              borderRadius: "9999px",
+              border: "1.5px solid var(--bg-dark-base)",
+            }}
+          >
+            {count > 99 ? "99+" : count}
+          </span>
+        )}
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className="relative inline-flex items-center justify-center gap-2 font-display font-bold uppercase rounded-md"
+      style={{
+        background: "transparent",
+        color: "var(--text-primary)",
+        padding: "0.875rem 1.5rem",
+        border: "1px solid var(--border-card-dark)",
+        fontSize: "var(--text-body-sm)",
+        letterSpacing: "0.08em",
+      }}
+      aria-label={`Open cart${count > 0 ? ` — ${count} item${count !== 1 ? "s" : ""}` : ""}`}
+    >
+      <span aria-hidden="true">🛒</span>
+      <span>Cart{count > 0 ? ` (${count})` : ""}</span>
+    </button>
   );
 }
